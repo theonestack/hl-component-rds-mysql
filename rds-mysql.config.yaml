@@ -14,8 +14,8 @@ family: mysql5.7
 
 deletion_policy: Snapshot
 
-parameters:
-  authentication_timeout: '60'
+# parameters:
+#   authentication_timeout: '60'
 
 # master_username: postgres
 # master_password: postgres
