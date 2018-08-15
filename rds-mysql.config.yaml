@@ -1,0 +1,31 @@
+maximum_availability_zones: 5
+
+# Set `ip_blocks` here or export from vpc component
+ip_blocks:
+  local:
+    - 127.0.0.1/32
+
+
+# CLI to query engine and family: aws rds describe-db-engine-versions
+engine_version: '5.7.22'
+family: mysql5.7
+
+# dns_record: mysql
+
+deletion_policy: Snapshot
+
+parameters:
+  authentication_timeout: '60'
+
+# master_username: postgres
+# master_password: postgres
+
+security_group:
+  -
+    rules:
+      -
+        IpProtocol: tcp
+        FromPort: 3306
+        ToPort: 3306
+    ips:
+      - stack
