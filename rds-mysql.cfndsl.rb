@@ -51,7 +51,7 @@ CloudFormation do
     ]
   end
 
-  record = (defined? dns_record ? "#{dns_record}" : 'mysql')
+  record = defined?(dns_record) ? dns_record : 'mysql'
 
   Route53_RecordSet('DatabaseIntHostRecord') do
     HostedZoneName FnJoin('', [ Ref('EnvironmentName'), '.', Ref('DnsDomain'), '.'])
