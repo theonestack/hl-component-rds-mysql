@@ -13,8 +13,16 @@ CloudFormation do
   EC2_SecurityGroup "SecurityGroupRDS" do
     VpcId Ref('VPCId')
     GroupDescription FnJoin(' ', [ Ref(:EnvironmentName), component_name, 'security group' ])
-    SecurityGroupIngress sg_create_rules(security_group, ip_blocks)
     Tags tags + [{ Key: 'Name', Value: FnJoin('-', [ Ref(:EnvironmentName), component_name, 'security-group' ])}]
+  end
+
+  EC2_SecurityGroupIngress('ECSIngressRule') do
+    Description 'Ephemeral port range for ECS'
+    IpProtocol 'tcp'
+    FromPort '3306'
+    ToPort '3306'
+    GroupId FnGetAtt('SecurityGroupRDS','GroupId')
+    SourceSecurityGroupId Ref('EcsSecurityGroup')
   end
 
   RDS_DBSubnetGroup 'SubnetGroupRDS' do

@@ -17,5 +17,6 @@ CfhighlanderTemplate do
     maximum_availability_zones.times do |az|
       ComponentParam "SubnetPersistence#{az}"
     end
+    ComponentParam 'EcsSecurityGroup', type: 'AWS::EC2::SecurityGroup::Id'
   end
 end
