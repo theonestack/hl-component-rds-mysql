@@ -38,8 +38,8 @@ CloudFormation do
     Engine 'mysql'
     EngineVersion engine_version
     DBParameterGroupName Ref('ParametersRDS')
-    MasterUsername  master_username if defined? master_username
-    MasterUserPassword master_password if defined? master_password
+    MasterUsername  FnJoin('', [ '{{resolve:ssm:', FnSub(master_login['username_ssm_param']), ':1}}' ]) if defined? master_login
+    MasterUserPassword FnJoin('', [ '{{resolve:ssm-secure:', FnSub(master_login['password_ssm_param']), ':1}}' ]) if defined? master_login
     DBSnapshotIdentifier  Ref('RDSSnapshotID')
     DBSubnetGroupName  Ref('SubnetGroupRDS')
     VPCSecurityGroups [Ref('SecurityGroupRDS')]
