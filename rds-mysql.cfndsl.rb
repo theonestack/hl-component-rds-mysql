@@ -2,8 +2,6 @@ CloudFormation do
 
   Description "#{component_name} - #{component_version}"
 
-  az_conditions_resources('SubnetPersistence', maximum_availability_zones)
-
   tags = []
   tags << { Key: 'Environment', Value: Ref(:EnvironmentName) }
   tags << { Key: 'EnvironmentType', Value: Ref(:EnvironmentType) }
@@ -19,7 +17,7 @@ CloudFormation do
 
   RDS_DBSubnetGroup 'SubnetGroupRDS' do
     DBSubnetGroupDescription FnJoin(' ', [ Ref(:EnvironmentName), component_name, 'subnet group' ])
-    SubnetIds az_conditional_resources('SubnetPersistence', maximum_availability_zones)
+    SubnetIds Ref(:SubnetIds)
     Tags tags + [{ Key: 'Name', Value: FnJoin('-', [ Ref(:EnvironmentName), component_name, 'subnet-group' ])}]
   end
 

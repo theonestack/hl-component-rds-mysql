@@ -6,6 +6,7 @@ CfhighlanderTemplate do
 
   Parameters do
     ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
+    ComponentParam 'NetworkPrefix', isGlobal: true
     ComponentParam 'StackOctet', isGlobal: true
     ComponentParam 'RDSSnapshotID'
     ComponentParam 'MultiAZ', 'false', allowedValues: ['true','false']
@@ -14,8 +15,6 @@ CfhighlanderTemplate do
     ComponentParam 'RDSInstanceType'
     ComponentParam 'RDSAllocatedStorage'
     ComponentParam 'DnsDomain'
-    maximum_availability_zones.times do |az|
-      ComponentParam "SubnetPersistence#{az}"
-    end
+    ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
   end
 end

@@ -1,0 +1,7 @@
+test_metadata:
+  type: config
+  name: parameters
+  description: set setting parameters in parameter group
+
+parameters:
+  authentication_timeout: '60'
