@@ -7,4 +7,4 @@ before_script:
   - cfndsl -u 9.0.0
 script:
   - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then cfhighlander cftest --no-validate; else cfhighlander cftest; fi
-  - cfn_nag_scan -i out/test
+  - cfn_nag_scan -i out/tests
