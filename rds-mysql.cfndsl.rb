@@ -35,7 +35,9 @@ CloudFormation do
     DeletionPolicy external_parameters[:deletion_policy]
     DBInstanceClass Ref('RDSInstanceType')
     AllocatedStorage Ref('RDSAllocatedStorage')
-    StorageType 'gp2'
+    MaxAllocatedStorage external_parameters[:max_allocated_storage] unless external_parameters[:max_allocated_storage].nil?
+    StorageEncrypted external_parameters[:storage_encrypted] unless external_parameters[:storage_encrypted].nil?
+    StorageType external_parameters.fetch(:storage_type, 'gp2')
     Engine 'mysql'
     EngineVersion external_parameters[:engine_version]
     DBParameterGroupName Ref('ParametersRDS')
