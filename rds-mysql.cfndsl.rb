@@ -38,6 +38,7 @@ CloudFormation do
 
   master_login = external_parameters.fetch(:master_login, {})
   RDS_DBInstance 'RDS' do
+    DBInstanceIdentifier FnSub(external_parameters[:db_instance_name]) unless external_parameters[:db_instance_name].nil?
     DeletionPolicy external_parameters[:deletion_policy]
     DBInstanceClass Ref('RDSInstanceType')
     AllocatedStorage Ref('RDSAllocatedStorage')

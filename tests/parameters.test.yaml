@@ -5,3 +5,5 @@ test_metadata:
 
 parameters:
   authentication_timeout: '60'
+
+db_instance_name: ${EnvironmentName}-primary
