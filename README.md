@@ -1,4 +1,4 @@
-![build-status](https://travis-ci.com/theonestack/hl-component-rds-mysql.svg?branch=master)
+![cftest](https://github.com/theonestack/hl-component-rds-mysql/actions/workflows/rspec.yaml/badge.svg)
 
 ### Cfhighlander RDS MySQL component
 
