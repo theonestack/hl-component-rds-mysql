@@ -9,12 +9,18 @@ CloudFormation do
   extra_tags = external_parameters.fetch(:extra_tags, {})
   extra_tags.each { |key,value| tags << { Key: key, Value: value } }
 
+  export = external_parameters.fetch(:export_name, external_parameters[:component_name])
+
   EC2_SecurityGroup "SecurityGroupRDS" do
     VpcId Ref('VPCId')
     GroupDescription FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], 'security group' ])
     SecurityGroupIngress sg_create_rules(external_parameters[:security_group], external_parameters[:ip_blocks])
     Tags tags + [{ Key: 'Name', Value: FnJoin('-', [ Ref(:EnvironmentName), external_parameters[:component_name], 'security-group' ])}]
   end
+  Output(:SecurityGroupRDS) {
+    Value(Ref(:SecurityGroupRDS))
+    Export FnSub("${EnvironmentName}-#{export}-SecurityGroup")
+  }
 
   RDS_DBSubnetGroup 'SubnetGroupRDS' do
     DBSubnetGroupDescription FnJoin(' ', [ Ref(:EnvironmentName), external_parameters[:component_name], 'subnet group' ])
@@ -35,7 +41,9 @@ CloudFormation do
     DeletionPolicy external_parameters[:deletion_policy]
     DBInstanceClass Ref('RDSInstanceType')
     AllocatedStorage Ref('RDSAllocatedStorage')
-    StorageType 'gp2'
+    MaxAllocatedStorage external_parameters[:max_allocated_storage] unless external_parameters[:max_allocated_storage].nil?
+    StorageEncrypted external_parameters[:storage_encrypted] unless external_parameters[:storage_encrypted].nil?
+    StorageType external_parameters.fetch(:storage_type, 'gp2')
     Engine 'mysql'
     EngineVersion external_parameters[:engine_version]
     DBParameterGroupName Ref('ParametersRDS')
