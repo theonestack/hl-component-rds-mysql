@@ -60,6 +60,10 @@ CloudFormation do
       { Key: 'Version', Value: external_parameters[:family]}
     ]
   end
+  Output(:DBIdentifier) {
+    Value(Ref('RDS'))
+    Export FnSub("${EnvironmentName}-#{export}-DBIdentifier")
+  }
 
   record = external_parameters.fetch(:dns_record, 'mysql')
 
