@@ -45,6 +45,7 @@ CloudFormation do
     MaxAllocatedStorage external_parameters[:max_allocated_storage] unless external_parameters[:max_allocated_storage].nil?
     StorageEncrypted external_parameters[:storage_encrypted] unless external_parameters[:storage_encrypted].nil?
     StorageType external_parameters.fetch(:storage_type, 'gp2')
+    BackupRetentionPeriod external_parameters[:backup_retention_period] unless external_parameters[:backup_retention_period].nil?
     Engine 'mysql'
     EngineVersion external_parameters[:engine_version]
     DBParameterGroupName Ref('ParametersRDS')
