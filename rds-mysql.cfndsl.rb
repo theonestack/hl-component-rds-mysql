@@ -54,7 +54,7 @@ CloudFormation do
     MasterUsername  FnJoin('', [ '{{resolve:ssm:', FnSub(master_login['username_ssm_param']), ':1}}' ]) unless master_login.empty?
     MasterUserPassword FnJoin('', [ '{{resolve:ssm-secure:', FnSub(master_login['password_ssm_param']), ':1}}' ]) unless master_login.empty?
     DBSnapshotIdentifier  Ref('RDSSnapshotID')
-    DBSubnetGroupName  Ref('SubnetGroupRDS')
+    DBSubnetGroupName FnIf("SourceDBInstanceIdentifierSet", Ref('AWS::NoValue'), Ref('SubnetGroupRDS'))
     VPCSecurityGroups [Ref('SecurityGroupRDS')]
     MultiAZ Ref('MultiAZ')
     Tags  tags + [
