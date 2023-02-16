@@ -36,8 +36,10 @@ CloudFormation do
     Tags tags + [{ Key: 'Name', Value: FnJoin('-', [ Ref(:EnvironmentName), external_parameters[:component_name], 'parameter-group' ])}]
   end
 
+  Condition("SourceDBInstanceIdentifierSet", FnNot(FnEquals(Ref(:SourceDBInstanceIdentifier), '')))
   master_login = external_parameters.fetch(:master_login, {})
   RDS_DBInstance 'RDS' do
+    SourceDBInstanceIdentifier FnIf("SourceDBInstanceIdentifierSet", Ref(:SourceDBInstanceIdentifier), Ref('AWS::NoValue'))
     DBInstanceIdentifier FnSub(external_parameters[:db_instance_name]) unless external_parameters[:db_instance_name].nil?
     DeletionPolicy external_parameters[:deletion_policy]
     DBInstanceClass Ref('RDSInstanceType')
