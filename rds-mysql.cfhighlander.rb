@@ -16,6 +16,7 @@ CfhighlanderTemplate do
     ComponentParam 'RDSAllocatedStorage'
     ComponentParam 'DnsDomain'
     ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
-    ComponentParam 'SourceDBInstanceIdentifier', ''
+    ComponentParam 'SourceDBInstanceIdentifier', 'disabled'
+    ComponentParam 'DatabaseMode', 'primary', allowedValues: ['primary', 'replica', 'promoted']
   end
 end
