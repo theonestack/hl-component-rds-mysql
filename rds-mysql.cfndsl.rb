@@ -40,7 +40,7 @@ CloudFormation do
   Condition("IsPrimary", FnEquals(Ref(:DatabaseMode),'primary'))
   Condition("IsReplica", FnEquals(Ref(:DatabaseMode),'replica'))
   Condition("IsPromoted", FnEquals(Ref(:DatabaseMode),'promoted'))
-  Condition("IsPrimaryOrPromoted", FnOr(FnEquals(Ref(:DatabaseMode),'primary'), FnEquals(Ref(:DatabaseMode),'promoted')))
+  Condition("IsPrimaryOrPromoted", FnOr([FnEquals(Ref(:DatabaseMode),'primary'), FnEquals(Ref(:DatabaseMode),'promoted')]))
 
   master_login = external_parameters.fetch(:master_login, {})
   RDS_DBInstance 'RDS' do
