@@ -46,7 +46,6 @@ CloudFormation do
   RDS_DBInstance 'RDS' do
     AllowMajorVersionUpgrade external_parameters[:allow_major_upgrade] unless external_parameters[:allow_major_upgrade].nil?
     AutoMinorVersionUpgrade external_parameters[:auto_minor_upgrade] unless external_parameters[:auto_minor_upgrade].nil?
-    PreferredBackupWindow FnIf('IsPrimaryOrPromoted', external_parameters[:preferred_backup_window], Ref('AWS::NoValue')) unless external_parameters[:preferred_backup_window].nil?
     SourceDBInstanceIdentifier FnIf("IsReplica", Ref(:SourceDBInstanceIdentifier), Ref('AWS::NoValue'))
     DBInstanceIdentifier FnSub(external_parameters[:db_instance_name]) unless external_parameters[:db_instance_name].nil?
     DeletionPolicy external_parameters[:deletion_policy]
@@ -55,6 +54,9 @@ CloudFormation do
     MaxAllocatedStorage external_parameters[:max_allocated_storage] unless external_parameters[:max_allocated_storage].nil?
     StorageEncrypted external_parameters[:storage_encrypted] unless external_parameters[:storage_encrypted].nil?
     StorageType external_parameters.fetch(:storage_type, 'gp2')
+    StorageThroughput external_parameters[:storage_throughput] unless external_parameters[:storage_throughput].nil?
+    Iops external_parameters[:storage_iops] unless external_parameters[:storage_iops].nil?
+    PreferredBackupWindow FnIf('IsPrimaryOrPromoted', external_parameters[:preferred_backup_window], Ref('AWS::NoValue')) unless external_parameters[:preferred_backup_window].nil?
     BackupRetentionPeriod FnIf('IsPrimaryOrPromoted', external_parameters[:backup_retention_period], Ref('AWS::NoValue')) unless external_parameters[:backup_retention_period].nil?
     Engine 'mysql'
     EngineVersion external_parameters[:engine_version]

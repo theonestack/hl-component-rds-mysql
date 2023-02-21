@@ -1,0 +1,15 @@
+test_metadata:
+  type: config
+  name: replica
+  description: replica test configuration
+
+test_parameters:
+  DatabaseMode: replica
+  SourceDBInstanceIdentifier: my-primary-db
+
+
+db_instance_name: ${EnvironmentName}-replica
+storage_type: gp3
+storage_throughput: 500
+Iops: 3000
+
