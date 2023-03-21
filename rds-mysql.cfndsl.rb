@@ -37,6 +37,7 @@ CloudFormation do
   end
 
   Condition("SourceDBInstanceIdentifierSet", FnNot(FnEquals(Ref(:SourceDBInstanceIdentifier), 'disabled')))
+  Condition("RDSStorageIOPSSet", FnNot(FnEquals(Ref(:RDSStorageIOPS), '')))
   Condition("IsPrimary", FnEquals(Ref(:DatabaseMode),'primary'))
   Condition("IsReplica", FnEquals(Ref(:DatabaseMode),'replica'))
   Condition("IsPromoted", FnEquals(Ref(:DatabaseMode),'promoted'))
@@ -55,7 +56,7 @@ CloudFormation do
     StorageEncrypted external_parameters[:storage_encrypted] unless external_parameters[:storage_encrypted].nil?
     StorageType external_parameters.fetch(:storage_type, 'gp2')
     StorageThroughput external_parameters[:storage_throughput] unless external_parameters[:storage_throughput].nil?
-    Iops external_parameters[:storage_iops] unless external_parameters[:storage_iops].nil?
+    Iops FnIf('RDSStorageIOPSSet', Ref(:RDSStorageIOPS), Ref('AWS::NoValue'))
     PreferredBackupWindow FnIf('IsPrimaryOrPromoted', external_parameters[:preferred_backup_window], Ref('AWS::NoValue')) unless external_parameters[:preferred_backup_window].nil?
     BackupRetentionPeriod FnIf('IsPrimaryOrPromoted', external_parameters[:backup_retention_period], Ref('AWS::NoValue')) unless external_parameters[:backup_retention_period].nil?
     Engine 'mysql'

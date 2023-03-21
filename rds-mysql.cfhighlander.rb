@@ -14,6 +14,7 @@ CfhighlanderTemplate do
     ComponentParam 'EnvironmentType', 'development', isGlobal: true, allowedValues: ['development', 'production']
     ComponentParam 'RDSInstanceType'
     ComponentParam 'RDSAllocatedStorage'
+    ComponentParam 'RDSStorageIOPS', ''
     ComponentParam 'DnsDomain'
     ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
     ComponentParam 'SourceDBInstanceIdentifier', 'disabled'
