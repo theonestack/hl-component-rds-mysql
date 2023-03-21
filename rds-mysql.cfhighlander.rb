@@ -15,6 +15,7 @@ CfhighlanderTemplate do
     ComponentParam 'RDSInstanceType'
     ComponentParam 'RDSAllocatedStorage'
     ComponentParam 'RDSStorageIOPS', ''
+    ComponentParam 'RDSStorageThroughput', ''
     ComponentParam 'DnsDomain'
     ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
     ComponentParam 'SourceDBInstanceIdentifier', 'disabled'
