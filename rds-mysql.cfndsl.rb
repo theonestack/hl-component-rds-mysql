@@ -63,8 +63,8 @@ CloudFormation do
     Engine 'mysql'
     EngineVersion external_parameters[:engine_version]
     DBParameterGroupName Ref('ParametersRDS')
-    MasterUsername FnIf('IsPrimary', FnJoin('', [ '{{resolve:ssm:', FnSub(master_login['username_ssm_param']), ':1}}' ])) unless master_login.empty?
-    MasterUserPassword FnIf('IsPrimary', FnJoin('', [ '{{resolve:ssm-secure:', FnSub(master_login['password_ssm_param']), ':1}}' ])) unless master_login.empty?
+    MasterUsername FnIf('IsPrimary', FnJoin('', [ '{{resolve:ssm:', FnSub(master_login['username_ssm_param']), ':1}}' ]), Ref('AWS::NoValue')) unless master_login.empty?
+    MasterUserPassword FnIf('IsPrimary', FnJoin('', [ '{{resolve:ssm-secure:', FnSub(master_login['password_ssm_param']), ':1}}' ]), Ref('AWS::NoValue')) unless master_login.empty?
     DBSnapshotIdentifier FnIf('IsPrimary',Ref('RDSSnapshotID'), Ref('AWS::NoValue'))
     DBSubnetGroupName FnIf("IsPrimary", Ref('SubnetGroupRDS'), Ref('AWS::NoValue'))
     VPCSecurityGroups [Ref('SecurityGroupRDS')]
